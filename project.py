@@ -7,11 +7,11 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.utils import to_categorical
 from gensim.models import KeyedVectors
 from sklearn.model_selection import train_test_split
-
+import pickle
 
 # ==== Tham số ====
-DATA_PATH = "C:/Users/admin/Downloads/DATN/data/"
-WORD2VEC_PATH = "C:/Users/admin/Downloads/DATN/data/vnw2v.bin"
+DATA_PATH = "C:/Users/admin/Downloads/DATN/Graduation_project/data/"
+WORD2VEC_PATH = "C:/Users/admin/Downloads/DATN/Graduation_project/W2VModelVN.bin"
 EMBEDDING_DIM = 300
 TRUNCATE_LENGTH = 300
 BATCH_SIZE = 50
@@ -39,6 +39,10 @@ tokenizer.fit_on_texts(texts)
 sequences = tokenizer.texts_to_sequences(texts)
 word_index = tokenizer.word_index
 print(f"Số lượng từ: {len(word_index)}")
+
+# ==== Save tokenizer ====
+with open("tokenizer.pkl", "wb") as f:
+    pickle.dump(tokenizer, f)
 
 # ==== Padding ====
 data = pad_sequences(sequences, maxlen=TRUNCATE_LENGTH)
@@ -72,3 +76,7 @@ model.fit(x_train, y_train,
           batch_size=BATCH_SIZE,
           epochs=EPOCHS,
           validation_data=(x_val, y_val))
+
+
+# ==== Save model ====
+model.save("sentiment_model.h5")
