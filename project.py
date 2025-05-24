@@ -31,7 +31,6 @@ pos_train, y_pos = load_data(os.path.join(DATA_PATH, "data_train/train/pos"), 1)
 neg_train, y_neg = load_data(os.path.join(DATA_PATH, "data_train/train/neg"), 0)
 texts = pos_train + neg_train
 labels = y_pos + y_neg
-# print(texts[0])
 
 # ==== Token hóa ====
 tokenizer = Tokenizer()
@@ -76,7 +75,6 @@ model.fit(x_train, y_train,
           batch_size=BATCH_SIZE,
           epochs=EPOCHS,
           validation_data=(x_val, y_val))
-
 
 # ==== Save model ====
 model.save("sentiment_model.h5")
